@@ -1,33 +1,90 @@
 "use client"
 
-import ArticleLink from "@/components/ArticleLink";
-import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
-import { Newspaper, NewspaperIcon } from "lucide-react";
+import Navbar from '@/components/Navbar';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { Id } from '@/convex/_generated/dataModel';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { article } from 'motion/react-client';
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
+import { Heart, HeartX, Newspaper } from 'lucide-react';
+import { useState } from 'react';
 
-export default function page() {
+export default function Page() {
+
     const articles = useQuery(api.articles.getArticles);
 
-    if (articles === undefined) {
+    const publishedArticles = articles?.filter(a => a.published);
+
+    const sortedArticles = publishedArticles ? [...publishedArticles].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    ) : []
+    
+    return (
+        <div className="min-h-dvh w-full flex flex-col">
+            <Navbar articleLink={undefined} />
+            {publishedArticles && publishedArticles.length > 0 ? (
+                <div className="p-5 gap-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                    {sortedArticles?.map(article => (
+                        <Article 
+                            key={article._id} 
+                            id={article._id} 
+                        />
+                    ))}
+                </div>
+            ) : (
+                <div className='flex-1 flex items-center justify-center'>
+                    <Empty>
+                        <EmptyHeader>
+                            <EmptyMedia>
+                                <Newspaper />
+                            </EmptyMedia>
+                            <EmptyTitle>No articles</EmptyTitle>
+                            <EmptyDescription>We can&apos;t retrieve any articles here.</EmptyDescription>
+                        </EmptyHeader>
+                    </Empty>
+                </div>
+            )}
+        </div>
+    )
+}
+
+function Article({ id }: { id: Id<"articles">} ) {
+    
+    const article = useQuery(api.articles.getArticle, { articleId: id});
+
+    if (!article) {
         return (
-            <main className="w-full h-[calc(100vh-64px)] flex flex-col gap-2 items-center justify-center">
-                <NewspaperIcon className="size-15" />
-                <p>No articles</p>
-            </main>
+            <p>Loadimg...</p>
         )
     }
     
     return (
-        <main className="p-5 flex justify-center">
-            <div className="grid grid-cols-1 max-w-3xl sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4">
-                {articles?.map((article) => (
-                    // <p>{article.title}</p>
-                    <ArticleLink 
-                        key={article._id} 
-                        articleId={article._id} 
-                    />
-                ))}
-            </div>
-        </main>
+        <Link href={`/articles/${article._id}`}>
+            <Card className="gap-0 relative">
+                <img 
+                    src={article.headerImage}
+                    alt='...'
+                    className="p-0 m-0"
+                />
+                <CardFooter className='flex flex-col items-start'>
+                    <p>{article.category}</p>
+                    <p className="font-bold text-xl mb-2">{article.title}</p>
+                    <p>
+                        {String(
+                            new Date(article.date).toLocaleDateString("en-us", { 
+                                month: "long", 
+                                day: "numeric",
+                                year: "numeric",
+                                timeZone: "UTC"
+                            })
+                        )}
+                    </p>
+                    <p>{article.author}</p>
+                </CardFooter>
+            </Card>
+        </Link>
     )
 }

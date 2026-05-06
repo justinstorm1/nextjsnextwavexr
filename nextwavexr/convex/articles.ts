@@ -1,51 +1,90 @@
 import { convexToJson, v } from 'convex/values';
-import { query } from './_generated/server';
+import { mutation, query } from './_generated/server' 
 
 export const getArticles = query({
     handler: async (ctx) => {
-        const articles = await ctx.db
+        const articles = ctx.db
             .query("articles")
             .order("desc")
             .collect();
-        if (!articles) return;
-        return articles;
-    }
-});
 
-export const getArticle = query({
-    args: { articleId: v.id("articles") },
-    handler: async (ctx, { articleId }) => {
-        const article = await ctx.db.get(articleId);
-        if (!article) return;
-        return article;
+        if (!articles) {
+            return [];
+        }
+
+        return articles;
     }
 })
 
-export const getAuthor = query({
-    args: { authorId: v.id("authors") },
-    handler: async (ctx, { authorId }) => {
-        const author = await ctx.db.get(authorId);
-        if (!author) return;
-        return author;
+export const getArticle = query({
+    args: { articleId: v.id("articles") },
+    handler: async (ctx, args) => {
+        const article = ctx.db.get(args.articleId);
+
+        if (!article) return;
+
+        return article;
+    }
+});
+ 
+export const addArticle = mutation({
+    args: {
+        headerImage: v.string(),
+        title: v.string(),
+        author: v.string(),
+        link: v.string(),
+        published: v.boolean(),
+        date: v.number(),
+        category: v.string()
+    },
+    handler: async (ctx, { headerImage, title, author, link, published, date, category }) => {
+        const newArticle = await ctx.db.insert("articles", {
+            headerImage,
+            title,
+            author,
+            link,
+            published,
+            date,
+            category
+        });
+        return newArticle;
     }
 });
 
-export const getAuthors = query({
-    handler: async (ctx) => {
-        const authors = await ctx.db
-            .query("authors")
-            .order("desc")
-            .collect();
-        if (!authors) return;
-        return authors;
+export const editArticle = mutation({
+    args: {
+        articleId: v.id("articles"),
+        headerImage: v.string(),
+        title: v.string(),
+        author: v.string(),
+        link: v.string(),
+        published: v.boolean(),
+        date: v.number(),
+        category: v.string()
+    },
+    handler: async (ctx, { articleId, headerImage, title, author, link, published, date, category }) => {
+        const article = await ctx.db.get(articleId);
+        if (!article) return;
+
+        await ctx.db.patch(article?._id, {
+            headerImage,
+            title,
+            author,
+            link,
+            published,
+            date,
+            category
+        });
+        return { success: true };
     }
 });
 
-export const getImage = query({
-    args: { storageId: v.id("_storage") },
-    handler: async (ctx, { storageId }) => {
-        const imageUrl = await ctx.storage.getUrl(storageId);
-        if (!imageUrl) return;
-        return imageUrl;
+export const deleteArticle = mutation({
+    args: {
+        articleId: v.id("articles")
+    },
+    handler: async (ctx, { articleId }) => {
+        await ctx.db.delete(articleId);
+        return { success: true };
     }
 })
