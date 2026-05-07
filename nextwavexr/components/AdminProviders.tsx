@@ -33,9 +33,14 @@ export default function AdminProviers({ children }: { children: React.ReactNode 
 }
 
 function AdminSidebar() {
-
-    
     const pathname = usePathname();
+    const articleId = pathname.split("/admin/edit/")[1];
+
+    const articles = useQuery(api.articles.getArticles);
+
+    const currentArticle = articles?.find(
+        (article) => article._id === articleId
+    );
     
     const user = useQuery(api.user.getUser);
     
@@ -43,7 +48,6 @@ function AdminSidebar() {
     
     const isMobile = useIsMobile();
     
-    const articles = useQuery(api.articles.getArticles);
 
     if (!articles) return;
     
@@ -57,11 +61,6 @@ function AdminSidebar() {
             icon: Plus,
             label: "Create",
             href: "/admin/create"
-        },
-        {
-            icon: Pencil,
-            label: "Edit",
-            href: `/admin/edit/${articles[0]._id}`
         },
         {
             icon: UserRoundPlus,
@@ -119,6 +118,22 @@ function AdminSidebar() {
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
+                {currentArticle && (
+                    <SidebarGroup>
+                        <SidebarGroupContent className="flex items-center gap-2">
+                            <div className="flex flex-col">
+                                <span className="text-sm font-medium">Editing Article</span>
+
+                                <span className="text-xs text-muted-foreground line-clamp-2 max-w-[180px]">
+                                    {currentArticle?.title}
+                                </span>
+                            </div>
+                            {pathname.startsWith("/admin/edit") && (
+                                <div className="ms-auto w-2 h-2 rounded-full bg-sidebar-primary shrink-0" />
+                            )}
+                        </SidebarGroupContent>
+                    </SidebarGroup>
+                )}       
             </SidebarContent>
         </Sidebar>
     )

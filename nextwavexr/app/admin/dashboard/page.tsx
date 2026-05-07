@@ -1,16 +1,19 @@
 "use client"
 
 import SlidingNumber from "@/components/SlidingNumber";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
+import { Id } from "@/convex/_generated/dataModel";
+import { useMutation, useQuery } from "convex/react";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 export default function Page() {
 
     const articles = useQuery(api.articles.getArticles);
+    const deleteArticle = useMutation(api.articles.deleteArticle);
 
     const cards = [
         {
@@ -18,6 +21,14 @@ export default function Page() {
             description: "Total Articles"
         },
     ]
+
+    const handleDeleteArticle = async (articleId: Id<"articles">) => {
+        try {
+            await deleteArticle({ articleId });
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div className="flex flex-col p-5 @container/main gap-10">
@@ -90,10 +101,30 @@ export default function Page() {
                                     Edit
                                 </Link>
                             </Button>
-                            <Button variant={'destructive'}>
-                                <Trash2 />
-                                Delete
-                            </Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button variant={'destructive'}>
+                                        <Trash2 />
+                                        Delete
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent size="sm">
+                                    <AlertDialogHeader>
+                                        <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+                                                <Trash2 />
+                                        </AlertDialogMedia>
+                                        <AlertDialogTitle>Delete Article?</AlertDialogTitle>
+                                        <AlertDialogDescription>Are you sure you want to delete the "{article.title}" article?</AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel variant={'outline'}>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction 
+                                            variant={'destructive'}
+                                            onClick={() => handleDeleteArticle(article._id)}
+                                        >Delete</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
                         </CardFooter>
                     </Card>
                 ))}

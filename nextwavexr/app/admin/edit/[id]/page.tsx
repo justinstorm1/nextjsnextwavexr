@@ -109,7 +109,7 @@ export default function Page() {
                 category,
                 published
             });
-            window.location.href = "/articles";
+            window.location.href = "/admin/dashboard";
         } catch (error) {
             console.error(error);
         }
