@@ -120,20 +120,31 @@ function AdminSidebar() {
                 </SidebarGroup>
                 {currentArticle && (
                     <SidebarGroup>
-                        <SidebarGroupContent className="flex items-center gap-2">
-                            <div className="flex flex-col">
-                                <span className="text-sm font-medium">Editing Article</span>
+                        <SidebarGroupContent className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
+                        
+                        {/* Expanded sidebar */}
+                        <div className="flex flex-col group-data-[collapsible=icon]:hidden">
+                            <span className="text-sm font-medium">
+                            Editing Article
+                            </span>
 
-                                <span className="text-xs text-muted-foreground line-clamp-2 max-w-[180px]">
-                                    {currentArticle?.title}
-                                </span>
-                            </div>
-                            {pathname.startsWith("/admin/edit") && (
-                                <div className="ms-auto w-2 h-2 rounded-full bg-sidebar-primary shrink-0" />
-                            )}
+                            <span className="text-xs text-muted-foreground line-clamp-2 max-w-[180px]">
+                            {currentArticle?.title}
+                            </span>
+                        </div>
+
+                        {/* Collapsed sidebar */}
+                        <div className="hidden group-data-[collapsible=icon]:flex items-center justify-center">
+                            <Pencil className="size-4" />
+                        </div>
+
+                        {pathname.startsWith("/admin/edit") && (
+                            <div className="ms-auto w-2 h-2 rounded-full bg-sidebar-primary shrink-0 group-data-[collapsible=icon]:hidden" />
+                        )}
+                        
                         </SidebarGroupContent>
                     </SidebarGroup>
-                )}       
+                )}
             </SidebarContent>
         </Sidebar>
     )
