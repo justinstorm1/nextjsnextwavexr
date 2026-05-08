@@ -114,7 +114,7 @@ export default function Page() {
                                             <FieldLabel htmlFor="content">Content</FieldLabel>
                                             <Textarea 
                                                 id="content"
-                                                placeholder="Content"
+                                                placeholder="Content*"
                                                 value={content}
                                                 onChange={(e) => setContent(e.target.value)}
                                                 required
