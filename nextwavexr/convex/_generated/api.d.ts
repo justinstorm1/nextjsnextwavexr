@@ -11,6 +11,9 @@
 import type * as articles from "../articles.js";
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
+import type * as messages from "../messages.js";
+import type * as otp_ResendOTP from "../otp/ResendOTP.js";
+import type * as otp_VerificationCodeEmail from "../otp/VerificationCodeEmail.js";
 import type * as user from "../user.js";
 
 import type {
@@ -23,6 +26,9 @@ declare const fullApi: ApiFromModules<{
   articles: typeof articles;
   auth: typeof auth;
   http: typeof http;
+  messages: typeof messages;
+  "otp/ResendOTP": typeof otp_ResendOTP;
+  "otp/VerificationCodeEmail": typeof otp_VerificationCodeEmail;
   user: typeof user;
 }>;
 

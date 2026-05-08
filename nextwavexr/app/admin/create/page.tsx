@@ -19,6 +19,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import AdminProviers from '@/components/AdminProviders';
 import { useParams, useSearchParams } from 'next/navigation';
 import DatePicker from '@/components/DatePicker';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function Page() {
 
@@ -100,7 +101,7 @@ export default function Page() {
         <div className="min-h-dvh flex flex-col">
             {/* <Navbar articleLink={undefined} /> */}
 
-            <div className="p-6 w-full">
+            <div className="p-5 w-full">
 
                 
                 <div className="mx-auto max-w-xl flex flex-col gap-6">
@@ -147,7 +148,7 @@ export default function Page() {
 
                     <Field>
                         <FieldLabel htmlFor='title'>Title</FieldLabel>
-                        <Input 
+                        <Textarea 
                             id='title'
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}

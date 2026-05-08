@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef } from 'react'
-import { ExternalLink, Home, Newspaper, BadgeQuestionMark } from "lucide-react";
+import { ExternalLink, Home, Newspaper, BadgeQuestionMark, UserCircle2 } from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "./ui/navigation-menu";
 import Link from "next/link"
 
@@ -22,6 +22,11 @@ export default function Navbar({ articleLink }: { articleLink: string | undefine
             label: "Articles",
             href: "/articles",
             icon: Newspaper
+        },
+        {
+            label: "Contact",
+            href: "/contact",
+            icon: UserCircle2
         }
     ]
 
