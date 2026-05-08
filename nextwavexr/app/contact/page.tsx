@@ -73,7 +73,7 @@ export default function Page() {
                                             />
                                         </Field>
                                         <Field>
-                                            <FieldLabel htmlFor="email">Email</FieldLabel>
+                                            <FieldLabel htmlFor="email">Email*</FieldLabel>
                                             <Input 
                                                 id="email"
                                                 placeholder="Email"
@@ -101,20 +101,20 @@ export default function Page() {
                                     <FieldDescription>What are we discussing today?</FieldDescription>
                                     <FieldGroup>
                                         <Field>
-                                            <FieldLabel htmlFor="subject">Subject</FieldLabel>
+                                            <FieldLabel htmlFor="subject">Subject*</FieldLabel>
                                             <Input 
                                                 id="subject"
-                                                placeholder="Subject*"
+                                                placeholder="Subject"
                                                 value={subject}
                                                 onChange={(e) => setSubject(e.target.value)}
                                                 required
                                             />
                                         </Field>
                                         <Field>
-                                            <FieldLabel htmlFor="content">Content</FieldLabel>
+                                            <FieldLabel htmlFor="content">Content*</FieldLabel>
                                             <Textarea 
                                                 id="content"
-                                                placeholder="Content*"
+                                                placeholder="Content"
                                                 value={content}
                                                 onChange={(e) => setContent(e.target.value)}
                                                 required
