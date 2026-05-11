@@ -18,16 +18,16 @@ export const metadata: Metadata = ({
   title: "Next Wave XR",
   description: "The future of immersive experiences",
   icons: {
-    icon: "/images/NextWaveXRLogo.png",
-    apple: "/images/NextWaveXRLogo.png",
+    icon: "/images/NextWaveXRLogoV2.png",
+    apple: "/images/NextWaveXRLogoV2.png",
   },
   openGraph: {
     title: "Next Wave XR",
     description: "The future of immersive experiences",
-    url: "https://yourwebsite.com",
+    url: "https://www.nextwavexr.com",
     images: [
       {
-        url: "/images/NextWaveXRLogo.png",
+        url: "/images/NextWaveXRLogoV2.png",
         width: 1200,
         height: 630,
       },

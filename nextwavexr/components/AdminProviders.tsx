@@ -4,7 +4,7 @@ import React from "react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarProvider, SidebarTrigger } from "./ui/sidebar";
 import { useConvexAuth, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { LayoutDashboard, LogOut, Plus, UserRoundPlus, Pencil, Send } from "lucide-react";
+import { LayoutDashboard, LogOut, Plus, UserRoundPlus, Pencil, Send, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Separator } from "./ui/separator";
@@ -63,8 +63,8 @@ function AdminSidebar() {
             href: "/admin/create"
         },
         {
-            icon: UserRoundPlus,
-            label: "Add Account",
+            icon: UserRound,
+            label: "Accounts",
             href: "/admin/account"
         },
         {

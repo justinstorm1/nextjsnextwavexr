@@ -34,7 +34,7 @@ export default function Navbar({ articleLink }: { articleLink: string | undefine
         <div className="flex flex-col border-b gap-3 p-5">
             <a href='/' className="mx-auto flex items-center gap-4">
                 <img 
-                    src={"/images/NextWaveXRLogo.png"} 
+                    src={"/images/NextWaveXRLogoV2.png"} 
                     alt='...'
                     className="w-12 aspect-square rounded-md"
                 />
